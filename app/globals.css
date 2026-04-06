@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0e0e0e;
+  --surface: #161616;
+  --surface-2: #1e1e1e;
+  --border: #2a2a2a;
+  --gold: #c9a84c;
+  --text: #e2e2e2;
+  --muted: #666666;
+  --font-dm-sans: 'DM Sans', system-ui, sans-serif;
+  --font-ibm-mono: 'IBM Plex Mono', 'Menlo', monospace;
+  --font-playfair: 'Playfair Display', Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-family: var(--font-dm-sans);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* Slider reset */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+}
+
+/* Editable input reset */
+input[type='text'] {
+  background: transparent;
+  color: var(--text);
+  outline: none;
+  border: none;
+}
+
+input[type='text']:focus {
+  outline: none;
+}
+
+textarea {
+  background: transparent;
+  color: var(--text);
+  outline: none;
+  border: none;
+}
