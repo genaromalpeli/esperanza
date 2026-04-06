@@ -23,19 +23,48 @@ export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete 
         overflow: 'hidden',
       }}
     >
-      <div
-        style={{
-          padding: '16px 16px 8px',
-          fontSize: '11px',
-          fontFamily: 'var(--font-ibm-mono)',
-          color: '#555',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-        }}
-      >
-        Proyectos
+      {/* Header + Add button at top */}
+      <div style={{ padding: '14px 8px 8px' }}>
+        <div
+          style={{
+            padding: '0 8px 8px',
+            fontSize: '11px',
+            fontFamily: 'var(--font-ibm-mono)',
+            color: '#555',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+          }}
+        >
+          Proyectos
+        </div>
+        <button
+          onClick={onAdd}
+          style={{
+            width: '100%',
+            padding: '9px',
+            background: 'none',
+            border: '1px dashed #2a2a2a',
+            borderRadius: '8px',
+            color: '#555',
+            fontSize: '13px',
+            cursor: 'pointer',
+            fontFamily: 'var(--font-dm-sans)',
+            transition: 'all 0.15s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = '#c9a84c'
+            e.currentTarget.style.borderColor = '#c9a84c40'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = '#555'
+            e.currentTarget.style.borderColor = '#2a2a2a'
+          }}
+        >
+          + nuevo
+        </button>
       </div>
 
+      {/* Projects list */}
       <div style={{ flex: 1, overflow: 'auto', padding: '4px 8px' }}>
         {projects.map((p) => {
           const { E } = calcE(p)
@@ -111,34 +140,6 @@ export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete 
             </div>
           )
         })}
-      </div>
-
-      <div style={{ padding: '8px 8px 16px' }}>
-        <button
-          onClick={onAdd}
-          style={{
-            width: '100%',
-            padding: '9px',
-            background: 'none',
-            border: '1px dashed #2a2a2a',
-            borderRadius: '8px',
-            color: '#555',
-            fontSize: '13px',
-            cursor: 'pointer',
-            fontFamily: 'var(--font-dm-sans)',
-            transition: 'all 0.15s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#c9a84c'
-            e.currentTarget.style.borderColor = '#c9a84c40'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#555'
-            e.currentTarget.style.borderColor = '#2a2a2a'
-          }}
-        >
-          + nuevo
-        </button>
       </div>
     </aside>
   )

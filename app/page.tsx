@@ -1,11 +1,17 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { Project, TabId, calcE, uid } from '@/types'
+import { Project, TabId, uid } from '@/types'
 import Sidebar from './components/Sidebar'
 import CalcTab from './components/CalcTab'
 import CompareTab from './components/CompareTab'
 import WhyTab from './components/WhyTab'
+
+const EXAMPLE_BENEFIT_TOOLTIP = (label: string) =>
+  `Ejemplo de beneficio: "${label}". Podés renombrar este ítem, ajustar su probabilidad y valor, o eliminarlo y agregar los tuyos propios.`
+
+const EXAMPLE_COST_TOOLTIP = (label: string) =>
+  `Ejemplo de costo/riesgo: "${label}". Podés renombrar este ítem, ajustar su probabilidad y magnitud, o eliminarlo y agregar los tuyos propios.`
 
 const INITIAL_PROJECTS: Project[] = [
   {
@@ -64,6 +70,56 @@ const INITIAL_PROJECTS: Project[] = [
       },
     ],
   },
+  {
+    id: 'ejemplo',
+    name: 'Proyecto Ejemplo',
+    benefits: [
+      {
+        id: 'eb1',
+        label: 'Ingreso económico',
+        probability: 0.4,
+        value: 80,
+        tooltip: EXAMPLE_BENEFIT_TOOLTIP('Ingreso económico'),
+      },
+      {
+        id: 'eb2',
+        label: 'Sentido / energía',
+        probability: 0.65,
+        value: 70,
+        tooltip: EXAMPLE_BENEFIT_TOOLTIP('Sentido / energía'),
+      },
+      {
+        id: 'eb3',
+        label: 'Posicionamiento futuro',
+        probability: 0.45,
+        value: 65,
+        tooltip: EXAMPLE_BENEFIT_TOOLTIP('Posicionamiento futuro'),
+      },
+    ],
+    costs: [
+      {
+        id: 'ec1',
+        label: 'Frustración',
+        probability: 0.5,
+        cost: 45,
+        tooltip: EXAMPLE_COST_TOOLTIP('Frustración'),
+      },
+      {
+        id: 'ec2',
+        label: 'Tiempo perdido',
+        probability: 0.55,
+        cost: 35,
+        tooltip: EXAMPLE_COST_TOOLTIP('Tiempo perdido'),
+      },
+      {
+        id: 'ec3',
+        label: 'Dispersión / desenfoque',
+        probability: 0.5,
+        cost: 30,
+        tooltip: EXAMPLE_COST_TOOLTIP('Dispersión / desenfoque'),
+      },
+    ],
+  },
 ]
 
 export default function Home() {
@@ -108,18 +164,55 @@ export default function Home() {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
+      {/* App header */}
+      <header
+        style={{
+          borderBottom: '1px solid #1e1e1e',
+          padding: '0 24px',
+          height: '52px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          background: '#0a0a0a',
+          flexShrink: 0,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: 'var(--font-ibm-mono)',
+            fontSize: '10px',
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            color: '#c9a84c',
+            opacity: 0.8,
+          }}
+        >
+          Calculadora Laplace
+        </span>
+        <span style={{ color: '#2a2a2a', fontSize: '14px' }}>·</span>
+        <span
+          style={{
+            fontFamily: 'var(--font-playfair)',
+            fontStyle: 'italic',
+            fontSize: '16px',
+            color: '#aaa',
+          }}
+        >
+          Calculá tu{' '}
+          <span style={{ color: '#c9a84c' }}>esperanza</span>
+        </span>
+      </header>
+
       {/* Main layout */}
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
-        {/* Sidebar — hidden on "why" tab */}
-        {activeTab !== 'why' && (
-          <Sidebar
-            projects={projects}
-            activeId={activeId}
-            onSelect={selectProject}
-            onAdd={addProject}
-            onDelete={deleteProject}
-          />
-        )}
+        {/* Sidebar — always visible */}
+        <Sidebar
+          projects={projects}
+          activeId={activeId}
+          onSelect={selectProject}
+          onAdd={addProject}
+          onDelete={deleteProject}
+        />
 
         {/* Content */}
         <div
