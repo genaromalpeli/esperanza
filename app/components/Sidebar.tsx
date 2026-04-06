@@ -1,16 +1,20 @@
 'use client'
 
-import { Project, calcE, eColor } from '@/types'
+import { Project, Lang, calcE, eColor } from '@/types'
+import { tr } from '@/app/translations'
 
 interface Props {
   projects: Project[]
   activeId: string
+  lang: Lang
   onSelect: (id: string) => void
   onAdd: () => void
   onDelete: (id: string) => void
 }
 
-export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete }: Props) {
+export default function Sidebar({ projects, activeId, lang, onSelect, onAdd, onDelete }: Props) {
+  const t = tr(lang)
+
   return (
     <aside
       style={{
@@ -23,7 +27,7 @@ export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete 
         overflow: 'hidden',
       }}
     >
-      {/* Header + Add button at top */}
+      {/* Label + New button at top */}
       <div style={{ padding: '14px 8px 8px' }}>
         <div
           style={{
@@ -35,7 +39,7 @@ export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete 
             textTransform: 'uppercase',
           }}
         >
-          Proyectos
+          {t.sidebarLabel}
         </div>
         <button
           onClick={onAdd}
@@ -60,7 +64,7 @@ export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete 
             e.currentTarget.style.borderColor = '#2a2a2a'
           }}
         >
-          + nuevo
+          {t.sidebarNew}
         </button>
       </div>
 
@@ -132,7 +136,7 @@ export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete 
                     borderRadius: '4px',
                     flexShrink: 0,
                   }}
-                  title="Eliminar proyecto"
+                  title="Delete"
                 >
                   ×
                 </button>

@@ -1,9 +1,11 @@
 'use client'
 
-import { Project } from '@/types'
+import { Project, Lang } from '@/types'
+import { tr } from '@/app/translations'
 
 interface Props {
   project: Project
+  lang: Lang
 }
 
 interface LeverItem {
@@ -12,15 +14,21 @@ interface LeverItem {
   type: 'benefit' | 'cost'
 }
 
-export default function LeversPanel({ project }: Props) {
+export default function LeversPanel({ project, lang }: Props) {
+  const t = tr(lang)
+
   const items: LeverItem[] = [
     ...project.benefits.map((b) => ({
-      label: b.label,
+      label: b.standardId
+        ? (t.standardBenefits[b.standardId]?.label ?? b.label)
+        : b.label,
       impact: b.probability * b.value,
       type: 'benefit' as const,
     })),
     ...project.costs.map((c) => ({
-      label: c.label,
+      label: c.standardId
+        ? (t.standardCosts[c.standardId]?.label ?? c.label)
+        : c.label,
       impact: c.probability * c.cost,
       type: 'cost' as const,
     })),
@@ -32,17 +40,8 @@ export default function LeversPanel({ project }: Props) {
 
   return (
     <section>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          marginBottom: '16px',
-        }}
-      >
-        <div
-          style={{ width: '3px', height: '18px', background: '#c9a84c', borderRadius: '2px' }}
-        />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+        <div style={{ width: '3px', height: '18px', background: '#c9a84c', borderRadius: '2px' }} />
         <h2
           style={{
             margin: 0,
@@ -54,12 +53,10 @@ export default function LeversPanel({ project }: Props) {
             fontFamily: 'var(--font-dm-sans)',
           }}
         >
-          Palancas
+          {t.sectionLevers}
         </h2>
-        <span
-          style={{ fontSize: '12px', color: '#444', fontFamily: 'var(--font-dm-sans)' }}
-        >
-          · ordenadas por impacto
+        <span style={{ fontSize: '12px', color: '#444', fontFamily: 'var(--font-dm-sans)' }}>
+          {t.leversSubtitle}
         </span>
       </div>
 
@@ -96,7 +93,7 @@ export default function LeversPanel({ project }: Props) {
                 style={{
                   fontSize: '13px',
                   color: '#aaa',
-                  width: '160px',
+                  width: '180px',
                   flexShrink: 0,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
@@ -110,10 +107,7 @@ export default function LeversPanel({ project }: Props) {
                 <div
                   style={{
                     position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
+                    inset: 0,
                     background: '#222',
                     borderRadius: '3px',
                   }}

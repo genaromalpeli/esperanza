@@ -1,49 +1,48 @@
 'use client'
 
-import { Project, Benefit, Cost, calcE, eColor, eLabel, uid } from '@/types'
+import { Project, Benefit, Cost, Lang, calcE, eColor, uid } from '@/types'
+import { tr, eLabel } from '@/app/translations'
 import ItemRow from './ItemRow'
 import LeversPanel from './LeversPanel'
 
 interface Props {
   project: Project
+  lang: Lang
   onUpdate: (p: Project) => void
 }
 
-export default function CalcTab({ project, onUpdate }: Props) {
+export default function CalcTab({ project, lang, onUpdate }: Props) {
+  const t = tr(lang)
   const { bSum, cSum, E } = calcE(project)
   const color = eColor(E)
-  const label = eLabel(E)
+  const interpretation = eLabel(E, lang)
   const total = bSum + cSum || 1
 
   const updateName = (name: string) => onUpdate({ ...project, name })
 
   const updateBenefit = (b: Benefit) =>
     onUpdate({ ...project, benefits: project.benefits.map((x) => (x.id === b.id ? b : x)) })
-
   const removeBenefit = (id: string) =>
     onUpdate({ ...project, benefits: project.benefits.filter((x) => x.id !== id) })
-
   const addBenefit = () =>
     onUpdate({
       ...project,
       benefits: [
         ...project.benefits,
-        { id: uid(), label: 'Nuevo beneficio', probability: 0.5, value: 50, tooltip: '' },
+        { id: uid(), label: t.newBenefitLabel, probability: 0.5, value: 50, tooltip: '' },
       ],
     })
 
   const updateCost = (c: Cost) =>
     onUpdate({ ...project, costs: project.costs.map((x) => (x.id === c.id ? c : x)) })
-
   const removeCost = (id: string) =>
     onUpdate({ ...project, costs: project.costs.filter((x) => x.id !== id) })
-
   const addCost = () =>
     onUpdate({
       ...project,
       costs: [
         ...project.costs,
-        { id: uid(), label: 'Nuevo costo', probability: 0.5, cost: 50, tooltip: '' },
+        { id: uid(), label: t.newCostLabel, probability: 0.5, cost: 50, tooltip: '' },
       ],
     })
 
@@ -59,29 +58,27 @@ export default function CalcTab({ project, onUpdate }: Props) {
       }}
     >
       {/* Project name */}
-      <div>
-        <input
-          type="text"
-          value={project.name}
-          onChange={(e) => updateName(e.target.value)}
-          style={{
-            fontFamily: 'var(--font-playfair)',
-            fontSize: '28px',
-            fontStyle: 'italic',
-            color: '#e2e2e2',
-            background: 'transparent',
-            border: 'none',
-            outline: 'none',
-            borderBottom: '1px solid transparent',
-            paddingBottom: '4px',
-            width: '100%',
-            transition: 'border-color 0.15s',
-          }}
-          onFocus={(e) => (e.currentTarget.style.borderBottomColor = '#2a2a2a')}
-          onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'transparent')}
-          placeholder="Nombre del proyecto"
-        />
-      </div>
+      <input
+        type="text"
+        value={project.name}
+        onChange={(e) => updateName(e.target.value)}
+        style={{
+          fontFamily: 'var(--font-playfair)',
+          fontSize: '28px',
+          fontStyle: 'italic',
+          color: '#e2e2e2',
+          background: 'transparent',
+          border: 'none',
+          outline: 'none',
+          borderBottom: '1px solid transparent',
+          paddingBottom: '4px',
+          width: '100%',
+          transition: 'border-color 0.15s',
+        }}
+        onFocus={(e) => (e.currentTarget.style.borderBottomColor = '#2a2a2a')}
+        onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'transparent')}
+        placeholder={t.projectPlaceholder}
+      />
 
       {/* E display card */}
       <div
@@ -92,7 +89,6 @@ export default function CalcTab({ project, onUpdate }: Props) {
           padding: '32px',
         }}
       >
-        {/* Big E number */}
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
           <div
             style={{
@@ -107,19 +103,12 @@ export default function CalcTab({ project, onUpdate }: Props) {
             {E > 0 ? '+' : ''}
             {E.toFixed(1)}
           </div>
-          <div
-            style={{
-              marginTop: '12px',
-              fontSize: '15px',
-              color: '#888',
-              fontFamily: 'var(--font-dm-sans)',
-            }}
-          >
-            {label}
+          <div style={{ marginTop: '12px', fontSize: '15px', color: '#888', fontFamily: 'var(--font-dm-sans)' }}>
+            {interpretation}
           </div>
         </div>
 
-        {/* Progress bar: bSum vs cSum */}
+        {/* Progress bar */}
         <div style={{ marginBottom: '20px' }}>
           <div
             style={{
@@ -154,23 +143,15 @@ export default function CalcTab({ project, onUpdate }: Props) {
               marginTop: '6px',
               fontSize: '12px',
               fontFamily: 'var(--font-ibm-mono)',
-              color: '#666',
             }}
           >
-            <span style={{ color: '#8ec9a0' }}>beneficios {bSum.toFixed(1)}</span>
-            <span style={{ color: '#e8716b' }}>costos {cSum.toFixed(1)}</span>
+            <span style={{ color: '#8ec9a0' }}>{t.sectionBenefits.toLowerCase()} {bSum.toFixed(1)}</span>
+            <span style={{ color: '#e8716b' }}>{t.sectionCosts.toLowerCase()} {cSum.toFixed(1)}</span>
           </div>
         </div>
 
         {/* Formula */}
-        <div
-          style={{
-            textAlign: 'center',
-            fontFamily: 'var(--font-ibm-mono)',
-            fontSize: '14px',
-            color: '#555',
-          }}
-        >
+        <div style={{ textAlign: 'center', fontFamily: 'var(--font-ibm-mono)', fontSize: '14px', color: '#555' }}>
           E = {bSum.toFixed(1)} − {cSum.toFixed(1)} ={' '}
           <span style={{ color }}>{E > 0 ? '+' : ''}{E.toFixed(1)}</span>
         </div>
@@ -178,17 +159,19 @@ export default function CalcTab({ project, onUpdate }: Props) {
 
       {/* Benefits */}
       <section>
-        <SectionHeader title="Beneficios" color="#8ec9a0" />
+        <SectionHeader title={t.sectionBenefits} color="#8ec9a0" />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' }}>
           {project.benefits.map((b) => (
             <ItemRow
               key={b.id}
               type="benefit"
               id={b.id}
+              standardId={b.standardId}
               label={b.label}
               probability={b.probability}
               valueOrCost={b.value}
               tooltip={b.tooltip}
+              lang={lang}
               onLabelChange={(v) => updateBenefit({ ...b, label: v })}
               onProbChange={(v) => updateBenefit({ ...b, probability: v })}
               onValueChange={(v) => updateBenefit({ ...b, value: v })}
@@ -197,22 +180,24 @@ export default function CalcTab({ project, onUpdate }: Props) {
             />
           ))}
         </div>
-        <AddButton onClick={addBenefit} label="agregar beneficio" />
+        <AddButton onClick={addBenefit} label={t.addBenefit} />
       </section>
 
       {/* Costs */}
       <section>
-        <SectionHeader title="Costos" color="#e8716b" />
+        <SectionHeader title={t.sectionCosts} color="#e8716b" />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' }}>
           {project.costs.map((c) => (
             <ItemRow
               key={c.id}
               type="cost"
               id={c.id}
+              standardId={c.standardId}
               label={c.label}
               probability={c.probability}
               valueOrCost={c.cost}
               tooltip={c.tooltip}
+              lang={lang}
               onLabelChange={(v) => updateCost({ ...c, label: v })}
               onProbChange={(v) => updateCost({ ...c, probability: v })}
               onValueChange={(v) => updateCost({ ...c, cost: v })}
@@ -221,11 +206,11 @@ export default function CalcTab({ project, onUpdate }: Props) {
             />
           ))}
         </div>
-        <AddButton onClick={addCost} label="agregar costo" />
+        <AddButton onClick={addCost} label={t.addCost} />
       </section>
 
-      {/* Levers panel */}
-      <LeversPanel project={project} />
+      {/* Levers */}
+      <LeversPanel project={project} lang={lang} />
     </div>
   )
 }

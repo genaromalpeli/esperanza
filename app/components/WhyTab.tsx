@@ -1,10 +1,16 @@
 'use client'
 
+import { Lang } from '@/types'
+import { tr } from '@/app/translations'
+
 interface Props {
+  lang: Lang
   onCalc: () => void
 }
 
-export default function WhyTab({ onCalc }: Props) {
+export default function WhyTab({ lang, onCalc }: Props) {
+  const t = tr(lang)
+
   return (
     <div
       style={{
@@ -16,25 +22,24 @@ export default function WhyTab({ onCalc }: Props) {
         gap: '40px',
       }}
     >
-      {/* Page title */}
-      <div>
-        <h1
-          style={{
-            fontFamily: 'var(--font-playfair)',
-            fontStyle: 'italic',
-            fontSize: '38px',
-            fontWeight: 700,
-            color: '#e2e2e2',
-            margin: 0,
-            lineHeight: 1.2,
-          }}
-        >
-          ¿Por qué calcular la{' '}
-          <span style={{ color: '#c9a84c', fontStyle: 'italic' }}>esperanza</span>?
-        </h1>
-      </div>
+      {/* Title */}
+      <h1
+        style={{
+          fontFamily: 'var(--font-playfair)',
+          fontStyle: 'italic',
+          fontSize: '38px',
+          fontWeight: 700,
+          color: '#e2e2e2',
+          margin: 0,
+          lineHeight: 1.2,
+        }}
+      >
+        {t.whyTitle1}{' '}
+        <span style={{ color: '#c9a84c' }}>{t.whyHope}</span>
+        {t.whyTitle2}
+      </h1>
 
-      {/* 1. Personal story */}
+      {/* Personal story */}
       <div
         style={{
           background: '#141414',
@@ -43,50 +48,23 @@ export default function WhyTab({ onCalc }: Props) {
           padding: '24px 28px',
         }}
       >
-        <p
-          style={{
-            margin: '0 0 14px',
-            fontSize: '15px',
-            lineHeight: 1.75,
-            color: '#ccc',
-            fontFamily: 'var(--font-dm-sans)',
-          }}
-        >
-          Pasé días perdido. Desganado, sin ver el futuro con claridad. Pero noté algo: cada vez
-          que aparecía una idea prometedora, volvía la energía. De repente tenía ganas de levantarme,
-          de hablar, de crear.
-        </p>
-        <p
-          style={{
-            margin: '0 0 14px',
-            fontSize: '15px',
-            lineHeight: 1.75,
-            color: '#ccc',
-            fontFamily: 'var(--font-dm-sans)',
-          }}
-        >
-          Me pregunté qué era eso. Y me di cuenta: era la{' '}
-          <span style={{ color: '#c9a84c', fontStyle: 'italic' }}>esperanza</span>. No el optimismo
-          ingenuo ni la fe ciega, sino algo más preciso: la percepción de que el futuro podía ser
-          mejor si actuaba bien.
-        </p>
-        <p
-          style={{
-            margin: 0,
-            fontSize: '15px',
-            lineHeight: 1.75,
-            color: '#ccc',
-            fontFamily: 'var(--font-dm-sans)',
-          }}
-        >
-          Justo estaba leyendo a Laplace. Me pareció hermoso que algo tan humano, tan íntimo,
-          tuviera una fórmula. Decidí matematizar mi propia{' '}
-          <span style={{ color: '#c9a84c', fontStyle: 'italic' }}>esperanza</span>. No para
-          predecir el futuro, sino para entender qué me mueve y para diseñarla.
-        </p>
+        {t.whyStory.map((para, i) => (
+          <p
+            key={i}
+            style={{
+              margin: i < t.whyStory.length - 1 ? '0 0 14px' : 0,
+              fontSize: '15px',
+              lineHeight: 1.75,
+              color: '#ccc',
+              fontFamily: 'var(--font-dm-sans)',
+            }}
+          >
+            {para}
+          </p>
+        ))}
       </div>
 
-      {/* 2. Laplace definition */}
+      {/* Laplace definition */}
       <div>
         <h2
           style={{
@@ -97,29 +75,14 @@ export default function WhyTab({ onCalc }: Props) {
             marginBottom: '16px',
           }}
         >
-          ¿Qué es la{' '}
-          <span style={{ color: '#c9a84c' }}>esperanza</span> según Laplace?
+          {t.whyLaplaceTitle}
         </h2>
-        <p
-          style={{
-            fontSize: '15px',
-            lineHeight: 1.75,
-            color: '#aaa',
-            fontFamily: 'var(--font-dm-sans)',
-            margin: 0,
-          }}
-        >
-          Laplace la definió como{' '}
-          <em style={{ color: '#e2e2e2' }}>
-            &ldquo;la ventaja del que espera un bien cualquiera dentro de suposiciones que son solo
-            probables&rdquo;
-          </em>
-          . No es optimismo. No es fe. Es una medida racional de cuánto vale la pena embarcarse en
-          algo, dadas las probabilidades y los valores en juego.
+        <p style={{ fontSize: '15px', lineHeight: 1.75, color: '#aaa', fontFamily: 'var(--font-dm-sans)', margin: 0 }}>
+          <em style={{ color: '#e2e2e2' }}>&ldquo;{t.whyLaplaceBody}&rdquo;</em>
         </p>
       </div>
 
-      {/* 3. Equation */}
+      {/* Equation */}
       <div>
         <h2
           style={{
@@ -130,7 +93,7 @@ export default function WhyTab({ onCalc }: Props) {
             marginBottom: '20px',
           }}
         >
-          La ecuación
+          {t.whyEquationTitle}
         </h2>
 
         <div
@@ -154,14 +117,8 @@ export default function WhyTab({ onCalc }: Props) {
           >
             E = Σ P(i)·V(i) − Σ P(j)·C(j)
           </div>
-
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {[
-              { sym: 'P(i)', desc: 'Probabilidad de que ocurra el beneficio i (entre 0 y 1).' },
-              { sym: 'V(i)', desc: 'Valor subjetivo de ese beneficio (escala 0–100).' },
-              { sym: 'P(j)', desc: 'Probabilidad de que ocurra el costo j (entre 0 y 1).' },
-              { sym: 'C(j)', desc: 'Magnitud del costo j (escala 0–100).' },
-            ].map(({ sym, desc }) => (
+            {t.whyVarItems.map(({ sym, desc }) => (
               <div key={sym} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                 <span
                   style={{
@@ -175,14 +132,7 @@ export default function WhyTab({ onCalc }: Props) {
                 >
                   {sym}
                 </span>
-                <span
-                  style={{
-                    fontSize: '14px',
-                    color: '#888',
-                    fontFamily: 'var(--font-dm-sans)',
-                    lineHeight: 1.5,
-                  }}
-                >
+                <span style={{ fontSize: '14px', color: '#888', fontFamily: 'var(--font-dm-sans)', lineHeight: 1.5 }}>
                   {desc}
                 </span>
               </div>
@@ -190,21 +140,12 @@ export default function WhyTab({ onCalc }: Props) {
           </div>
         </div>
 
-        <p
-          style={{
-            fontSize: '14px',
-            color: '#666',
-            fontFamily: 'var(--font-dm-sans)',
-            lineHeight: 1.6,
-            margin: 0,
-          }}
-        >
-          Los valores son subjetivos. Y eso no los invalida, los hace propios. Nadie más que vos
-          sabe cuánto vale para vos algo o cuánto te cuesta un fracaso.
+        <p style={{ fontSize: '14px', color: '#666', fontFamily: 'var(--font-dm-sans)', lineHeight: 1.6, margin: 0 }}>
+          {t.whyEquationNote}
         </p>
       </div>
 
-      {/* 4. Levers */}
+      {/* Levers */}
       <div>
         <h2
           style={{
@@ -215,32 +156,11 @@ export default function WhyTab({ onCalc }: Props) {
             marginBottom: '20px',
           }}
         >
-          Las 4 palancas para subir E
+          {t.whyLeversTitle}
         </h2>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {[
-            {
-              sym: '↑ P(i)',
-              title: 'Más información, mejores equipos',
-              desc: 'Aumentan la probabilidad de éxito. Cuanto más sabés y mejor te rodeás, más alta es P(i).',
-            },
-            {
-              sym: '↑ V(i)',
-              title: 'Elegí proyectos que realmente importen',
-              desc: 'Un proyecto que te mueve de verdad tiene un V(i) alto. El valor subjetivo importa.',
-            },
-            {
-              sym: '↓ C(j)',
-              title: 'Reducí el costo de intentar',
-              desc: 'MVP rápido antes que compromiso largo. Cuanto menos cuesta el intento, más libre sos para apostar.',
-            },
-            {
-              sym: '↑ n',
-              title: 'Más apuestas en paralelo',
-              desc: 'La ley de los grandes números trabaja a tu favor. Diversificar es una estrategia de esperanza.',
-            },
-          ].map(({ sym, title, desc }) => (
+          {t.whyLevers.map(({ sym, title, desc }) => (
             <div
               key={sym}
               style={{
@@ -277,14 +197,7 @@ export default function WhyTab({ onCalc }: Props) {
                 >
                   {title}
                 </div>
-                <div
-                  style={{
-                    fontSize: '13px',
-                    color: '#777',
-                    lineHeight: 1.6,
-                    fontFamily: 'var(--font-dm-sans)',
-                  }}
-                >
+                <div style={{ fontSize: '13px', color: '#777', lineHeight: 1.6, fontFamily: 'var(--font-dm-sans)' }}>
                   {desc}
                 </div>
               </div>
@@ -302,8 +215,8 @@ export default function WhyTab({ onCalc }: Props) {
             textAlign: 'center',
           }}
         >
-          La <span style={{ color: '#c9a84c' }}>esperanza</span> no solo se calcula. También se
-          diseña.
+          <span style={{ color: '#c9a84c' }}>{t.whyHope.charAt(0).toUpperCase() + t.whyHope.slice(1)}</span>{' '}
+          {t.whyClosing.replace(/^(hope|esperanza)\s*/i, '')}
         </p>
       </div>
 
@@ -333,7 +246,7 @@ export default function WhyTab({ onCalc }: Props) {
             e.currentTarget.style.transform = 'translateY(0)'
           }}
         >
-          Calculá tu primera esperanza →
+          {t.whyCTA}
         </button>
       </div>
     </div>
