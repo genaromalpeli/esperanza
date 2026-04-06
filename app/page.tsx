@@ -15,62 +15,6 @@ const EXAMPLE_COST_TOOLTIP = (label: string) =>
 
 const INITIAL_PROJECTS: Project[] = [
   {
-    id: 'vefy',
-    name: 'Vefy',
-    benefits: [
-      {
-        id: 'b1',
-        label: 'Ingreso económico',
-        probability: 0.35,
-        value: 90,
-        tooltip:
-          'El dinero concreto que este proyecto puede generarte. ¿Podría cubrir gastos, darte independencia o ser una fuente de ingresos real en los próximos meses?',
-      },
-      {
-        id: 'b2',
-        label: 'Sentido / energía',
-        probability: 0.7,
-        value: 80,
-        tooltip:
-          'La motivación y energía vital que el proyecto despierta en vos. ¿Te hace sentir vivo? ¿Le encontrás un propósito más allá del resultado económico?',
-      },
-      {
-        id: 'b3',
-        label: 'Posicionamiento futuro',
-        probability: 0.4,
-        value: 75,
-        tooltip:
-          'Las puertas que este proyecto puede abrirte aunque hoy no genere dinero: reputación, contactos, aprendizaje transferible, presencia en el mercado.',
-      },
-    ],
-    costs: [
-      {
-        id: 'c1',
-        label: 'Frustración',
-        probability: 0.5,
-        cost: 40,
-        tooltip:
-          'El costo emocional si el proyecto no sale como esperás. ¿Cuánto te afecta personalmente el fracaso en este caso puntual?',
-      },
-      {
-        id: 'c2',
-        label: 'Tiempo perdido',
-        probability: 0.6,
-        cost: 30,
-        tooltip:
-          'Las horas y semanas que invertirías y que no podrías recuperar si el proyecto no funciona. ¿Es un costo alto para vos en este momento de tu vida?',
-      },
-      {
-        id: 'c3',
-        label: 'Dispersión',
-        probability: 0.55,
-        cost: 35,
-        tooltip:
-          'El foco que perdés de otros proyectos o prioridades al dedicarle energía a este. ¿Cuánto te cuesta la distracción en tu contexto actual?',
-      },
-    ],
-  },
-  {
     id: 'ejemplo',
     name: 'Proyecto Ejemplo',
     benefits: [
@@ -124,7 +68,7 @@ const INITIAL_PROJECTS: Project[] = [
 
 export default function Home() {
   const [projects, setProjects] = useState<Project[]>(INITIAL_PROJECTS)
-  const [activeId, setActiveId] = useState<string>('vefy')
+  const [activeId, setActiveId] = useState<string>('ejemplo')
   const [activeTab, setActiveTab] = useState<TabId>('calc')
 
   const activeProject = projects.find((p) => p.id === activeId) ?? projects[0]
