@@ -14,38 +14,42 @@ export default function WhyTab({ lang, onCalc }: Props) {
   return (
     <div
       style={{
-        maxWidth: '680px',
+        maxWidth: '720px',
         margin: '0 auto',
-        padding: '48px 24px 80px',
+        padding: '48px 32px 80px',
         display: 'flex',
         flexDirection: 'column',
         gap: '40px',
       }}
     >
       {/* Title */}
-      <h1
-        style={{
-          fontFamily: 'var(--font-playfair)',
-          fontStyle: 'italic',
-          fontSize: '38px',
-          fontWeight: 700,
-          color: '#e2e2e2',
-          margin: 0,
-          lineHeight: 1.2,
-        }}
-      >
-        {t.whyTitle1}{' '}
-        <span style={{ color: '#c9a84c' }}>{t.whyHope}</span>
-        {t.whyTitle2}
-      </h1>
+      <div style={{ textAlign: 'center' }}>
+        <h1
+          style={{
+            fontFamily: 'var(--font-playfair)',
+            fontStyle: 'italic',
+            fontSize: '38px',
+            fontWeight: 700,
+            color: 'var(--text)',
+            margin: '0 0 12px',
+            lineHeight: 1.2,
+          }}
+        >
+          {t.whyTitle1}
+        </h1>
+        <p style={{ fontSize: '16px', color: 'var(--text-mid)', fontFamily: 'var(--font-dm-sans)', margin: 0 }}>
+          {t.whyLaplaceTitle}
+        </p>
+      </div>
 
-      {/* Personal story */}
+      {/* Story */}
       <div
         style={{
-          background: '#141414',
-          borderLeft: '3px solid #c9a84c',
-          borderRadius: '0 12px 12px 0',
-          padding: '24px 28px',
+          background: '#fff',
+          borderRadius: 'var(--radius)',
+          padding: '28px 32px',
+          boxShadow: 'var(--shadow)',
+          borderLeft: '4px solid var(--purple)',
         }}
       >
         {t.whyStory.map((para, i) => (
@@ -55,7 +59,7 @@ export default function WhyTab({ lang, onCalc }: Props) {
               margin: i < t.whyStory.length - 1 ? '0 0 14px' : 0,
               fontSize: '15px',
               lineHeight: 1.75,
-              color: '#ccc',
+              color: 'var(--text)',
               fontFamily: 'var(--font-dm-sans)',
             }}
           >
@@ -64,84 +68,72 @@ export default function WhyTab({ lang, onCalc }: Props) {
         ))}
       </div>
 
-      {/* Laplace definition */}
-      <div>
-        <h2
+      {/* Formula card */}
+      <div
+        style={{
+          background: 'var(--purple)',
+          borderRadius: 'var(--radius)',
+          padding: '32px',
+          textAlign: 'center',
+        }}
+      >
+        <div
           style={{
-            fontFamily: 'var(--font-playfair)',
-            fontStyle: 'italic',
-            fontSize: '22px',
-            color: '#e2e2e2',
-            marginBottom: '16px',
+            fontFamily: 'var(--font-ibm-mono)',
+            fontSize: '24px',
+            color: '#fff',
+            letterSpacing: '0.02em',
+            marginBottom: '24px',
           }}
         >
-          {t.whyLaplaceTitle}
-        </h2>
-        <p style={{ fontSize: '15px', lineHeight: 1.75, color: '#aaa', fontFamily: 'var(--font-dm-sans)', margin: 0 }}>
-          <em style={{ color: '#e2e2e2' }}>&ldquo;{t.whyLaplaceBody}&rdquo;</em>
-        </p>
+          E = Σ P(i)·V(i) − Σ P(j)·C(j)
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', textAlign: 'left' }}>
+          {t.whyVarItems.map(({ sym, desc }) => (
+            <div key={sym} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-ibm-mono)',
+                  fontSize: '13px',
+                  color: 'rgba(255,255,255,0.7)',
+                  width: '44px',
+                  flexShrink: 0,
+                  paddingTop: '1px',
+                }}
+              >
+                {sym}
+              </span>
+              <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-dm-sans)', lineHeight: 1.5 }}>
+                {desc}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Equation */}
-      <div>
+      {/* Laplace definition */}
+      <div
+        style={{
+          background: '#fff',
+          borderRadius: 'var(--radius)',
+          padding: '28px 32px',
+          boxShadow: 'var(--shadow)',
+        }}
+      >
         <h2
           style={{
             fontFamily: 'var(--font-playfair)',
             fontStyle: 'italic',
-            fontSize: '22px',
-            color: '#e2e2e2',
-            marginBottom: '20px',
+            fontSize: '20px',
+            color: 'var(--text)',
+            marginTop: 0,
+            marginBottom: '12px',
           }}
         >
           {t.whyEquationTitle}
         </h2>
-
-        <div
-          style={{
-            background: '#141414',
-            border: '1px solid #222',
-            borderRadius: '12px',
-            padding: '28px',
-            marginBottom: '24px',
-          }}
-        >
-          <div
-            style={{
-              fontFamily: 'var(--font-ibm-mono)',
-              fontSize: '22px',
-              color: '#c9a84c',
-              textAlign: 'center',
-              marginBottom: '24px',
-              letterSpacing: '0.02em',
-            }}
-          >
-            E = Σ P(i)·V(i) − Σ P(j)·C(j)
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {t.whyVarItems.map(({ sym, desc }) => (
-              <div key={sym} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-ibm-mono)',
-                    fontSize: '13px',
-                    color: '#c9a84c',
-                    width: '44px',
-                    flexShrink: 0,
-                    paddingTop: '1px',
-                  }}
-                >
-                  {sym}
-                </span>
-                <span style={{ fontSize: '14px', color: '#888', fontFamily: 'var(--font-dm-sans)', lineHeight: 1.5 }}>
-                  {desc}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <p style={{ fontSize: '14px', color: '#666', fontFamily: 'var(--font-dm-sans)', lineHeight: 1.6, margin: 0 }}>
-          {t.whyEquationNote}
+        <p style={{ fontSize: '15px', lineHeight: 1.75, color: 'var(--text-mid)', fontFamily: 'var(--font-dm-sans)', margin: 0 }}>
+          <em>&ldquo;{t.whyLaplaceBody}&rdquo;</em>
         </p>
       </div>
 
@@ -152,71 +144,69 @@ export default function WhyTab({ lang, onCalc }: Props) {
             fontFamily: 'var(--font-playfair)',
             fontStyle: 'italic',
             fontSize: '22px',
-            color: '#e2e2e2',
-            marginBottom: '20px',
+            color: 'var(--text)',
+            margin: '0 0 16px',
           }}
         >
           {t.whyLeversTitle}
         </h2>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {t.whyLevers.map(({ sym, title, desc }) => (
-            <div
-              key={sym}
-              style={{
-                background: '#141414',
-                border: '1px solid #222',
-                borderRadius: '10px',
-                padding: '16px 20px',
-                display: 'flex',
-                gap: '16px',
-                alignItems: 'flex-start',
-              }}
-            >
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          {t.whyLevers.map(({ sym, title, desc }) => {
+            const colors: Record<string, { bg: string; text: string }> = {
+              'P(i)': { bg: 'var(--green-light)', text: 'var(--green)' },
+              'V(i)': { bg: 'var(--purple-light)', text: 'var(--purple)' },
+              'P(j)': { bg: 'var(--coral-light)', text: 'var(--coral)' },
+              'C(j)': { bg: '#FFF8EC', text: '#E09B20' },
+            }
+            const c = colors[sym] ?? { bg: 'var(--purple-light)', text: 'var(--purple)' }
+
+            return (
               <div
+                key={sym}
                 style={{
-                  fontFamily: 'var(--font-ibm-mono)',
-                  fontSize: '13px',
-                  color: '#c9a84c',
-                  width: '44px',
-                  flexShrink: 0,
-                  paddingTop: '2px',
+                  background: '#fff',
+                  borderRadius: '12px',
+                  padding: '20px',
+                  boxShadow: 'var(--shadow)',
                 }}
               >
-                {sym}
-              </div>
-              <div>
+                <div
+                  style={{
+                    display: 'inline-block',
+                    background: c.bg,
+                    color: c.text,
+                    borderRadius: '8px',
+                    padding: '4px 10px',
+                    fontFamily: 'var(--font-ibm-mono)',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    marginBottom: '10px',
+                  }}
+                >
+                  {sym}
+                </div>
                 <div
                   style={{
                     fontSize: '14px',
-                    fontWeight: 600,
-                    color: '#e2e2e2',
-                    marginBottom: '4px',
+                    fontWeight: 700,
+                    color: 'var(--text)',
+                    marginBottom: '6px',
                     fontFamily: 'var(--font-dm-sans)',
                   }}
                 >
                   {title}
                 </div>
-                <div style={{ fontSize: '13px', color: '#777', lineHeight: 1.6, fontFamily: 'var(--font-dm-sans)' }}>
+                <div style={{ fontSize: '13px', color: 'var(--text-mid)', lineHeight: 1.6, fontFamily: 'var(--font-dm-sans)' }}>
                   {desc}
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
-        <p
-          style={{
-            marginTop: '28px',
-            fontSize: '16px',
-            color: '#e2e2e2',
-            fontFamily: 'var(--font-playfair)',
-            fontStyle: 'italic',
-            textAlign: 'center',
-          }}
-        >
-          <span style={{ color: '#c9a84c' }}>{t.whyHope.charAt(0).toUpperCase() + t.whyHope.slice(1)}</span>{' '}
-          {t.whyClosing.replace(/^(hope|esperanza)\s*/i, '')}
+        <p style={{ fontSize: '14px', color: 'var(--text-mid)', fontFamily: 'var(--font-dm-sans)', marginTop: '24px', lineHeight: 1.6 }}>
+          {t.whyEquationNote}
         </p>
       </div>
 
@@ -225,24 +215,23 @@ export default function WhyTab({ lang, onCalc }: Props) {
         <button
           onClick={onCalc}
           style={{
-            background: '#c9a84c',
-            color: '#000',
+            background: 'var(--purple)',
+            color: '#fff',
             border: 'none',
-            borderRadius: '10px',
-            padding: '14px 28px',
+            borderRadius: '12px',
+            padding: '14px 32px',
             fontSize: '15px',
             fontWeight: 700,
             fontFamily: 'var(--font-dm-sans)',
             cursor: 'pointer',
-            letterSpacing: '0.01em',
-            transition: 'background 0.15s, transform 0.1s',
+            transition: 'opacity 0.15s, transform 0.1s',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#d4b460'
-            e.currentTarget.style.transform = 'translateY(-1px)'
+            e.currentTarget.style.opacity = '0.88'
+            e.currentTarget.style.transform = 'translateY(-2px)'
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#c9a84c'
+            e.currentTarget.style.opacity = '1'
             e.currentTarget.style.transform = 'translateY(0)'
           }}
         >

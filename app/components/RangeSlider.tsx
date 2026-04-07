@@ -22,10 +22,7 @@ export default function RangeSlider({ value, min, max, step, color, onChange }: 
       onChange={(e) => onChange(parseFloat(e.target.value))}
       style={{
         width: '100%',
-        background: `linear-gradient(to right, ${color} ${pct}%, #2a2a2a ${pct}%)`,
-        height: '4px',
-        borderRadius: '2px',
-        cursor: 'pointer',
+        background: `linear-gradient(to right, ${color} ${pct}%, var(--border) ${pct}%)`,
       }}
     />
   )

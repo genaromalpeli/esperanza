@@ -75,177 +75,32 @@ export default function Home() {
   }, [])
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
-      {/* App header */}
-      <header
-        style={{
-          borderBottom: '1px solid #1e1e1e',
-          padding: '0 20px',
-          height: '52px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          background: '#0a0a0a',
-          flexShrink: 0,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: 'var(--font-ibm-mono)',
-            fontSize: '10px',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: '#c9a84c',
-            opacity: 0.8,
-          }}
-        >
-          {t.headerMono}
-        </span>
-        <span style={{ color: '#2a2a2a', fontSize: '14px' }}>·</span>
-        <span
-          style={{
-            fontFamily: 'var(--font-playfair)',
-            fontStyle: 'italic',
-            fontSize: '16px',
-            color: '#aaa',
-          }}
-        >
-          {t.headerItalic}{' '}
-          <span style={{ color: '#c9a84c' }}>{t.headerHope}</span>
-        </span>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: 'var(--bg)' }}>
+      {/* Sidebar — always visible, handles tab navigation */}
+      <Sidebar
+        projects={projects}
+        activeId={activeId}
+        activeTab={activeTab}
+        lang={lang}
+        onSelect={selectProject}
+        onAdd={addProject}
+        onDelete={deleteProject}
+        onTab={setActiveTab}
+        onToggleLang={toggleLang}
+      />
 
-        {/* Language toggle */}
-        <button
-          onClick={toggleLang}
-          style={{
-            marginLeft: 'auto',
-            background: 'none',
-            border: '1px solid #2a2a2a',
-            borderRadius: '6px',
-            padding: '4px 10px',
-            color: '#666',
-            fontSize: '11px',
-            fontFamily: 'var(--font-ibm-mono)',
-            cursor: 'pointer',
-            letterSpacing: '0.04em',
-            transition: 'all 0.15s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#c9a84c'
-            e.currentTarget.style.borderColor = '#c9a84c'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#666'
-            e.currentTarget.style.borderColor = '#2a2a2a'
-          }}
-        >
-          {t.switchLang}
-        </button>
-      </header>
-
-      {/* Main layout */}
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        {/* Sidebar — always visible */}
-        <Sidebar
-          projects={projects}
-          activeId={activeId}
-          lang={lang}
-          onSelect={selectProject}
-          onAdd={addProject}
-          onDelete={deleteProject}
-        />
-
-        {/* Content */}
-        <div
-          style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            minWidth: 0,
-          }}
-        >
-          <TabNav activeTab={activeTab} onTab={setActiveTab} lang={lang} />
-
-          <div style={{ flex: 1, overflow: 'auto', padding: '0 0 80px 0' }}>
-            {activeTab === 'calc' && (
-              <CalcTab project={activeProject} lang={lang} onUpdate={updateProject} />
-            )}
-            {activeTab === 'compare' && (
-              <CompareTab projects={projects} lang={lang} onSelect={selectProject} />
-            )}
-            {activeTab === 'why' && (
-              <WhyTab lang={lang} onCalc={() => setActiveTab('calc')} />
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <footer
-        style={{
-          borderTop: '1px solid #1e1e1e',
-          padding: '12px 24px',
-          textAlign: 'center',
-          color: '#333',
-          fontFamily: 'var(--font-ibm-mono)',
-          fontSize: '11px',
-          letterSpacing: '0.02em',
-        }}
-      >
-        {t.footer}
-      </footer>
+      {/* Main content */}
+      <main style={{ flex: 1, overflow: 'auto', background: 'var(--bg)' }}>
+        {activeTab === 'calc' && (
+          <CalcTab project={activeProject} lang={lang} onUpdate={updateProject} />
+        )}
+        {activeTab === 'compare' && (
+          <CompareTab projects={projects} lang={lang} onSelect={selectProject} />
+        )}
+        {activeTab === 'why' && (
+          <WhyTab lang={lang} onCalc={() => setActiveTab('calc')} />
+        )}
+      </main>
     </div>
-  )
-}
-
-function TabNav({
-  activeTab,
-  onTab,
-  lang,
-}: {
-  activeTab: TabId
-  onTab: (t: TabId) => void
-  lang: Lang
-}) {
-  const t = tr(lang)
-  const tabs: { id: TabId; label: string }[] = [
-    { id: 'calc', label: t.tabCalc },
-    { id: 'compare', label: t.tabCompare },
-    { id: 'why', label: t.tabWhy },
-  ]
-
-  return (
-    <nav
-      style={{
-        display: 'flex',
-        borderBottom: '1px solid #2a2a2a',
-        background: '#0e0e0e',
-        padding: '0 24px',
-        flexShrink: 0,
-      }}
-    >
-      {tabs.map((tab) => (
-        <button
-          key={tab.id}
-          onClick={() => onTab(tab.id)}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '16px 20px',
-            fontFamily: 'var(--font-dm-sans)',
-            fontSize: '14px',
-            fontWeight: activeTab === tab.id ? 600 : 400,
-            color: activeTab === tab.id ? '#e2e2e2' : '#666',
-            borderBottom: activeTab === tab.id ? '2px solid #c9a84c' : '2px solid transparent',
-            transition: 'all 0.15s ease',
-            marginBottom: '-1px',
-          }}
-        >
-          {tab.label}
-        </button>
-      ))}
-    </nav>
   )
 }
