@@ -1,13 +1,16 @@
 'use client'
 
-import { Project, calcE, eColor } from '@/types'
+import { Project, Lang, calcE, eColor } from '@/types'
+import { tr } from '@/app/translations'
 
 interface Props {
   projects: Project[]
+  lang: Lang
   onSelect: (id: string) => void
 }
 
-export default function CompareTab({ projects, onSelect }: Props) {
+export default function CompareTab({ projects, lang, onSelect }: Props) {
+  const t = tr(lang)
   const sorted = [...projects]
     .map((p) => ({ project: p, ...calcE(p) }))
     .sort((a, b) => b.E - a.E)
@@ -69,11 +72,10 @@ export default function CompareTab({ projects, onSelect }: Props) {
                     fontFamily: 'var(--font-dm-sans)',
                   }}
                 >
-                  mejor
+                  {t.bestBadge}
                 </div>
               )}
 
-              {/* Project name */}
               <div
                 style={{
                   fontFamily: 'var(--font-playfair)',
@@ -89,7 +91,6 @@ export default function CompareTab({ projects, onSelect }: Props) {
                 {project.name}
               </div>
 
-              {/* E big */}
               <div
                 style={{
                   fontFamily: 'var(--font-ibm-mono)',
@@ -104,7 +105,6 @@ export default function CompareTab({ projects, onSelect }: Props) {
                 {E.toFixed(1)}
               </div>
 
-              {/* Mini bars */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 <MiniBar label="B" value={bSum} total={total} color="#8ec9a0" />
                 <MiniBar label="C" value={cSum} total={total} color="#e8716b" />
@@ -114,7 +114,7 @@ export default function CompareTab({ projects, onSelect }: Props) {
         })}
       </div>
 
-      {/* Ranking bar chart */}
+      {/* Ranking */}
       <div>
         <h2
           style={{
@@ -127,7 +127,7 @@ export default function CompareTab({ projects, onSelect }: Props) {
             marginBottom: '20px',
           }}
         >
-          Ranking
+          {t.rankingTitle}
         </h2>
         <div
           style={{
@@ -145,11 +145,7 @@ export default function CompareTab({ projects, onSelect }: Props) {
             const pct = (Math.abs(E) / maxAbsE) * 45
 
             return (
-              <div
-                key={project.id}
-                style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
-              >
-                {/* Name */}
+              <div key={project.id} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div
                   style={{
                     width: '130px',
@@ -165,17 +161,8 @@ export default function CompareTab({ projects, onSelect }: Props) {
                 >
                   {project.name}
                 </div>
-
-                {/* Bar centered */}
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', height: '20px' }}>
-                  <div
-                    style={{
-                      flex: 1,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                    }}
-                  >
+                  <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                     {E < 0 && (
                       <div
                         style={{
@@ -183,20 +170,11 @@ export default function CompareTab({ projects, onSelect }: Props) {
                           height: '8px',
                           background: color,
                           borderRadius: '4px 0 0 4px',
-                          transition: 'width 0.3s',
                         }}
                       />
                     )}
                   </div>
-                  {/* Center line */}
-                  <div
-                    style={{
-                      width: '2px',
-                      height: '20px',
-                      background: '#333',
-                      flexShrink: 0,
-                    }}
-                  />
+                  <div style={{ width: '2px', height: '20px', background: '#333', flexShrink: 0 }} />
                   <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                     {E >= 0 && (
                       <div
@@ -205,21 +183,17 @@ export default function CompareTab({ projects, onSelect }: Props) {
                           height: '8px',
                           background: color,
                           borderRadius: '0 4px 4px 0',
-                          transition: 'width 0.3s',
                         }}
                       />
                     )}
                   </div>
                 </div>
-
-                {/* Value */}
                 <div
                   style={{
                     fontFamily: 'var(--font-ibm-mono)',
                     fontSize: '13px',
                     color,
                     width: '52px',
-                    textAlign: 'left',
                     flexShrink: 0,
                   }}
                 >
@@ -235,57 +209,17 @@ export default function CompareTab({ projects, onSelect }: Props) {
   )
 }
 
-function MiniBar({
-  label,
-  value,
-  total,
-  color,
-}: {
-  label: string
-  value: number
-  total: number
-  color: string
-}) {
+function MiniBar({ label, value, total, color }: { label: string; value: number; total: number; color: string }) {
   const pct = (value / total) * 100
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-      <span
-        style={{
-          fontFamily: 'var(--font-ibm-mono)',
-          fontSize: '10px',
-          color: '#444',
-          width: '12px',
-        }}
-      >
+      <span style={{ fontFamily: 'var(--font-ibm-mono)', fontSize: '10px', color: '#444', width: '12px' }}>
         {label}
       </span>
-      <div
-        style={{
-          flex: 1,
-          height: '4px',
-          background: '#222',
-          borderRadius: '2px',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            width: `${pct}%`,
-            height: '100%',
-            background: color,
-            borderRadius: '2px',
-          }}
-        />
+      <div style={{ flex: 1, height: '4px', background: '#222', borderRadius: '2px', overflow: 'hidden' }}>
+        <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: '2px' }} />
       </div>
-      <span
-        style={{
-          fontFamily: 'var(--font-ibm-mono)',
-          fontSize: '10px',
-          color: '#555',
-          width: '28px',
-          textAlign: 'right',
-        }}
-      >
+      <span style={{ fontFamily: 'var(--font-ibm-mono)', fontSize: '10px', color: '#555', width: '28px', textAlign: 'right' }}>
         {value.toFixed(0)}
       </span>
     </div>

@@ -1,16 +1,20 @@
 'use client'
 
-import { Project, calcE, eColor } from '@/types'
+import { Project, Lang, calcE, eColor } from '@/types'
+import { tr } from '@/app/translations'
 
 interface Props {
   projects: Project[]
   activeId: string
+  lang: Lang
   onSelect: (id: string) => void
   onAdd: () => void
   onDelete: (id: string) => void
 }
 
-export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete }: Props) {
+export default function Sidebar({ projects, activeId, lang, onSelect, onAdd, onDelete }: Props) {
+  const t = tr(lang)
+
   return (
     <aside
       style={{
@@ -23,19 +27,48 @@ export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete 
         overflow: 'hidden',
       }}
     >
-      <div
-        style={{
-          padding: '16px 16px 8px',
-          fontSize: '11px',
-          fontFamily: 'var(--font-ibm-mono)',
-          color: '#555',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-        }}
-      >
-        Proyectos
+      {/* Label + New button at top */}
+      <div style={{ padding: '14px 8px 8px' }}>
+        <div
+          style={{
+            padding: '0 8px 8px',
+            fontSize: '11px',
+            fontFamily: 'var(--font-ibm-mono)',
+            color: '#555',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+          }}
+        >
+          {t.sidebarLabel}
+        </div>
+        <button
+          onClick={onAdd}
+          style={{
+            width: '100%',
+            padding: '9px',
+            background: 'none',
+            border: '1px dashed #2a2a2a',
+            borderRadius: '8px',
+            color: '#555',
+            fontSize: '13px',
+            cursor: 'pointer',
+            fontFamily: 'var(--font-dm-sans)',
+            transition: 'all 0.15s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = '#c9a84c'
+            e.currentTarget.style.borderColor = '#c9a84c40'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = '#555'
+            e.currentTarget.style.borderColor = '#2a2a2a'
+          }}
+        >
+          {t.sidebarNew}
+        </button>
       </div>
 
+      {/* Projects list */}
       <div style={{ flex: 1, overflow: 'auto', padding: '4px 8px' }}>
         {projects.map((p) => {
           const { E } = calcE(p)
@@ -103,7 +136,7 @@ export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete 
                     borderRadius: '4px',
                     flexShrink: 0,
                   }}
-                  title="Eliminar proyecto"
+                  title="Delete"
                 >
                   ×
                 </button>
@@ -111,34 +144,6 @@ export default function Sidebar({ projects, activeId, onSelect, onAdd, onDelete 
             </div>
           )
         })}
-      </div>
-
-      <div style={{ padding: '8px 8px 16px' }}>
-        <button
-          onClick={onAdd}
-          style={{
-            width: '100%',
-            padding: '9px',
-            background: 'none',
-            border: '1px dashed #2a2a2a',
-            borderRadius: '8px',
-            color: '#555',
-            fontSize: '13px',
-            cursor: 'pointer',
-            fontFamily: 'var(--font-dm-sans)',
-            transition: 'all 0.15s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#c9a84c'
-            e.currentTarget.style.borderColor = '#c9a84c40'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#555'
-            e.currentTarget.style.borderColor = '#2a2a2a'
-          }}
-        >
-          + nuevo
-        </button>
       </div>
     </aside>
   )

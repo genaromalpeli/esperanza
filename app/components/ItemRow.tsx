@@ -1,15 +1,19 @@
 'use client'
 
 import { useState } from 'react'
+import { Lang } from '@/types'
+import { tr } from '@/app/translations'
 import RangeSlider from './RangeSlider'
 
 interface Props {
   type: 'benefit' | 'cost'
   id: string
-  label: string
+  standardId?: string       // if set: label & tooltip are read-only (from translations)
+  label: string             // custom label (only used when no standardId)
   probability: number
   valueOrCost: number
-  tooltip: string
+  tooltip: string           // custom tooltip (only used when no standardId)
+  lang: Lang
   onLabelChange: (v: string) => void
   onProbChange: (v: number) => void
   onValueChange: (v: number) => void
@@ -19,10 +23,12 @@ interface Props {
 
 export default function ItemRow({
   type,
+  standardId,
   label,
   probability,
   valueOrCost,
   tooltip,
+  lang,
   onLabelChange,
   onProbChange,
   onValueChange,
@@ -31,8 +37,26 @@ export default function ItemRow({
 }: Props) {
   const [showTooltip, setShowTooltip] = useState(false)
   const [editingTooltip, setEditingTooltip] = useState(false)
+
+  const t = tr(lang)
+  const isStandard = !!standardId
+
+  // Resolve label and tooltip from translations for standard items
+  const resolvedLabel = isStandard
+    ? type === 'benefit'
+      ? t.standardBenefits[standardId!]?.label ?? label
+      : t.standardCosts[standardId!]?.label ?? label
+    : label
+
+  const resolvedTooltip = isStandard
+    ? type === 'benefit'
+      ? t.standardBenefits[standardId!]?.tooltip ?? ''
+      : t.standardCosts[standardId!]?.tooltip ?? ''
+    : tooltip
+
   const impact = probability * valueOrCost
   const accentColor = type === 'benefit' ? '#8ec9a0' : '#e8716b'
+  const valueLabel = type === 'benefit' ? t.labelValue : t.labelCost
 
   return (
     <div
@@ -46,15 +70,17 @@ export default function ItemRow({
         gap: '10px',
       }}
     >
-      {/* Top row: tooltip icon + label + impact + delete */}
+      {/* Top row */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        {/* Tooltip trigger */}
+        {/* Tooltip icon */}
         <div style={{ position: 'relative', flexShrink: 0 }}>
           <button
             onMouseEnter={(e) => {
-              if (!editingTooltip) setShowTooltip(true)
-              e.currentTarget.style.color = '#c9a84c'
-              e.currentTarget.style.borderColor = '#c9a84c'
+              setShowTooltip(true)
+              if (!isStandard) {
+                e.currentTarget.style.color = '#c9a84c'
+                e.currentTarget.style.borderColor = '#c9a84c'
+              }
             }}
             onMouseLeave={(e) => {
               setShowTooltip(false)
@@ -62,8 +88,10 @@ export default function ItemRow({
               e.currentTarget.style.borderColor = '#333'
             }}
             onClick={() => {
-              setEditingTooltip((v) => !v)
-              setShowTooltip(false)
+              if (!isStandard) {
+                setEditingTooltip((v) => !v)
+                setShowTooltip(false)
+              }
             }}
             style={{
               background: 'none',
@@ -74,20 +102,20 @@ export default function ItemRow({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              cursor: 'pointer',
+              cursor: isStandard ? 'default' : 'pointer',
               color: '#555',
               fontSize: '11px',
               fontWeight: 700,
               flexShrink: 0,
               transition: 'border-color 0.15s, color 0.15s',
             }}
-            title="Ver / editar nota"
+            title={isStandard ? resolvedTooltip : undefined}
           >
             ?
           </button>
 
-          {/* Hover tooltip */}
-          {showTooltip && tooltip && (
+          {/* Tooltip popover */}
+          {showTooltip && resolvedTooltip && (
             <div
               style={{
                 position: 'absolute',
@@ -98,38 +126,52 @@ export default function ItemRow({
                 border: '1px solid #333',
                 borderRadius: '8px',
                 padding: '10px 12px',
-                maxWidth: '280px',
-                minWidth: '180px',
+                maxWidth: '300px',
+                minWidth: '200px',
                 fontSize: '12px',
                 color: '#aaa',
-                lineHeight: 1.5,
+                lineHeight: 1.6,
                 zIndex: 100,
                 pointerEvents: 'none',
                 fontFamily: 'var(--font-dm-sans)',
               }}
             >
-              {tooltip}
+              {resolvedTooltip}
             </div>
           )}
         </div>
 
-        {/* Label */}
-        <input
-          type="text"
-          value={label}
-          onChange={(e) => onLabelChange(e.target.value)}
-          style={{
-            flex: 1,
-            background: 'transparent',
-            border: 'none',
-            outline: 'none',
-            color: '#e2e2e2',
-            fontSize: '14px',
-            fontFamily: 'var(--font-dm-sans)',
-            minWidth: 0,
-          }}
-          placeholder="Nombre del ítem"
-        />
+        {/* Label: read-only for standard, editable for custom */}
+        {isStandard ? (
+          <div
+            style={{
+              flex: 1,
+              fontSize: '14px',
+              color: '#e2e2e2',
+              fontFamily: 'var(--font-dm-sans)',
+              userSelect: 'none',
+            }}
+          >
+            {resolvedLabel}
+          </div>
+        ) : (
+          <input
+            type="text"
+            value={label}
+            onChange={(e) => onLabelChange(e.target.value)}
+            style={{
+              flex: 1,
+              background: 'transparent',
+              border: 'none',
+              outline: 'none',
+              color: '#e2e2e2',
+              fontSize: '14px',
+              fontFamily: 'var(--font-dm-sans)',
+              minWidth: 0,
+            }}
+            placeholder={type === 'benefit' ? t.newBenefitLabel : t.newCostLabel}
+          />
+        )}
 
         {/* Impact */}
         <div
@@ -162,19 +204,19 @@ export default function ItemRow({
           }}
           onMouseEnter={(e) => (e.currentTarget.style.color = '#e8716b')}
           onMouseLeave={(e) => (e.currentTarget.style.color = '#333')}
-          title="Eliminar"
+          title="Remove"
         >
           ×
         </button>
       </div>
 
-      {/* Tooltip editor */}
-      {editingTooltip && (
+      {/* Custom tooltip editor (only for non-standard items) */}
+      {!isStandard && editingTooltip && (
         <div style={{ paddingLeft: '28px' }}>
           <textarea
             value={tooltip}
             onChange={(e) => onTooltipChange(e.target.value)}
-            placeholder="Agregá una nota o contexto para este ítem..."
+            placeholder={t.tooltipEditHint}
             style={{
               width: '100%',
               background: '#1a1a1a',
@@ -198,7 +240,7 @@ export default function ItemRow({
       {/* Sliders */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '28px' }}>
         <SliderRow
-          label="probabilidad"
+          label={t.labelProbability}
           value={probability}
           min={0}
           max={1}
@@ -208,7 +250,7 @@ export default function ItemRow({
           onChange={onProbChange}
         />
         <SliderRow
-          label={type === 'benefit' ? 'valor' : 'costo'}
+          label={valueLabel}
           value={valueOrCost}
           min={0}
           max={100}
