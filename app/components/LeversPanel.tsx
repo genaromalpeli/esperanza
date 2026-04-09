@@ -19,12 +19,16 @@ export default function LeversPanel({ project, lang }: Props) {
 
   const items: LeverItem[] = [
     ...project.benefits.map((b) => ({
-      label: b.standardId ? (t.standardBenefits[b.standardId]?.label ?? b.label) : b.label,
+      label: b.standardId
+        ? (t.standardBenefits[b.standardId]?.label ?? b.label)
+        : b.label,
       impact: b.probability * b.value,
       type: 'benefit' as const,
     })),
     ...project.costs.map((c) => ({
-      label: c.standardId ? (t.standardCosts[c.standardId]?.label ?? c.label) : c.label,
+      label: c.standardId
+        ? (t.standardCosts[c.standardId]?.label ?? c.label)
+        : c.label,
       impact: c.probability * c.cost,
       type: 'cost' as const,
     })),
@@ -37,36 +41,38 @@ export default function LeversPanel({ project, lang }: Props) {
   return (
     <section>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-        <div style={{ width: '4px', height: '20px', background: 'var(--purple)', borderRadius: '2px' }} />
+        <div style={{ width: '3px', height: '18px', background: '#c9a84c', borderRadius: '2px' }} />
         <h2
           style={{
             margin: 0,
-            fontSize: '14px',
-            fontWeight: 700,
-            color: 'var(--text)',
+            fontSize: '13px',
+            fontWeight: 600,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: '#888',
             fontFamily: 'var(--font-dm-sans)',
           }}
         >
           {t.sectionLevers}
         </h2>
-        <span style={{ fontSize: '12px', color: 'var(--text-light)', fontFamily: 'var(--font-dm-sans)' }}>
+        <span style={{ fontSize: '12px', color: '#444', fontFamily: 'var(--font-dm-sans)' }}>
           {t.leversSubtitle}
         </span>
       </div>
 
       <div
         style={{
-          background: '#fff',
-          borderRadius: '12px',
+          background: '#141414',
+          border: '1px solid #222',
+          borderRadius: '10px',
           padding: '16px',
-          boxShadow: 'var(--shadow)',
           display: 'flex',
           flexDirection: 'column',
           gap: '10px',
         }}
       >
         {items.map((item, i) => {
-          const color = item.type === 'benefit' ? 'var(--green)' : 'var(--coral)'
+          const color = item.type === 'benefit' ? '#8ec9a0' : '#e8716b'
           const pct = (item.impact / maxImpact) * 100
 
           return (
@@ -74,7 +80,7 @@ export default function LeversPanel({ project, lang }: Props) {
               <div
                 style={{
                   fontSize: '11px',
-                  color: 'var(--text-light)',
+                  color: '#555',
                   fontFamily: 'var(--font-ibm-mono)',
                   width: '16px',
                   flexShrink: 0,
@@ -86,7 +92,7 @@ export default function LeversPanel({ project, lang }: Props) {
               <div
                 style={{
                   fontSize: '13px',
-                  color: 'var(--text)',
+                  color: '#aaa',
                   width: '180px',
                   flexShrink: 0,
                   whiteSpace: 'nowrap',
@@ -102,7 +108,7 @@ export default function LeversPanel({ project, lang }: Props) {
                   style={{
                     position: 'absolute',
                     inset: 0,
-                    background: 'var(--border)',
+                    background: '#222',
                     borderRadius: '3px',
                   }}
                 />
@@ -123,11 +129,10 @@ export default function LeversPanel({ project, lang }: Props) {
                 style={{
                   fontFamily: 'var(--font-ibm-mono)',
                   fontSize: '12px',
-                  color: color,
+                  color,
                   width: '36px',
                   textAlign: 'right',
                   flexShrink: 0,
-                  fontWeight: 600,
                 }}
               >
                 {item.impact.toFixed(1)}

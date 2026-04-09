@@ -23,19 +23,18 @@ const translations = {
 
     // Sidebar
     sidebarLabel: 'Projects',
-    sidebarNew: '+ New Project',
+    sidebarNew: '+ new',
 
     // Calc tab
     sectionBenefits: 'Benefits',
-    sectionCosts: 'Costs',
+    sectionCosts: 'Costs & Risks',
     sectionLevers: 'Levers',
     leversSubtitle: '· sorted by impact',
-    addBenefit: 'Add another benefit',
-    addCost: 'Add another cost',
-    labelProbability: 'PROBABILITY OF SUCCESS',
-    labelProbabilityCost: 'PROBABILITY OF FAILURE',
-    labelValue: 'ESTIMATED VALUE',
-    labelCost: 'ESTIMATED COST',
+    addBenefit: 'add benefit',
+    addCost: 'add cost / risk',
+    labelProbability: 'probability',
+    labelValue: 'value',
+    labelCost: 'cost',
     newBenefitLabel: 'New benefit',
     newCostLabel: 'New cost',
     projectPlaceholder: 'Project name',
@@ -43,26 +42,14 @@ const translations = {
     tooltipEditHint: 'Add a note or context for this item...',
 
     // E interpretation
-    eVeryGood: 'Very Viable Project',
-    eGood: 'Viable Project',
-    eFragile: 'Project at Risk',
-    eBad: 'Unviable Project',
+    eVeryGood: 'Very worth playing this game.',
+    eGood: 'Worth trying.',
+    eFragile: 'Fragile hope. Review the levers.',
+    eBad: 'Negative hope. What can you change?',
 
     // Compare tab
     rankingTitle: 'Ranking',
     bestBadge: 'best',
-    compareTitle: 'Compare Projects',
-    compareSubtitle: 'Evaluate your ideas and decide what to build next.',
-
-    // Results panel
-    resultsLabel: 'MATHEMATICAL EXPECTANCY',
-    weightedBenefit: 'Weighted Benefit',
-    weightedCost: 'Weighted Cost',
-    saveResults: 'Save Results',
-    positiveImpact: 'Positive Impact',
-    riskInvestment: 'Risk / Investment',
-    basedOn: 'Based on probabilities, on average you\'d expect to get',
-    fromThis: 'from this project.',
 
     // Standard items — labels and real explanatory tooltips
     standardBenefits: {
@@ -102,21 +89,21 @@ const translations = {
     } as Record<string, ItemDef>,
 
     // Why tab
-    whyTitle1: 'The science of deciding',
-    whyHope: '',
-    whyTitle2: '',
+    whyTitle1: 'Why calculate',
+    whyHope: 'hope',
+    whyTitle2: '?',
     whyStory: [
       'I spent days lost. Unmotivated, without seeing the future clearly. But I noticed something: every time a promising idea appeared, the energy came back. Suddenly I wanted to wake up, talk, create.',
       'I asked myself what that was. And I realized: it was hope. Not naive optimism or blind faith, but something more precise — the perception that the future could be better if I acted well.',
       'I happened to be reading Laplace. I found it beautiful that something so human, so intimate, had a formula. I decided to mathematize my own hope. Not to predict the future, but to understand what moves me — and to design it.',
     ],
-    whyLaplaceTitle: 'Laplace Formula',
+    whyLaplaceTitle: "What is hope according to Laplace?",
     whyLaplaceBody:
       '"The advantage of one who expects any good thing within assumptions that are only probable." Not optimism. Not faith. A rational measure of how worthwhile it is to embark on something, given the probabilities and values at play.',
     whyEquationTitle: 'The equation',
     whyEquationNote:
       'The values are subjective. And that doesn\'t invalidate them — it makes them yours. No one but you knows how much something is worth to you, or how much a failure costs you.',
-    whyLeversTitle: 'The 4 Levers',
+    whyLeversTitle: 'The 4 levers to raise E',
     whyLevers: [
       {
         sym: '↑ P(i)',
@@ -164,42 +151,30 @@ const translations = {
     tabWhy: '¿Por qué?',
 
     sidebarLabel: 'Proyectos',
-    sidebarNew: '+ Nuevo Proyecto',
+    sidebarNew: '+ nuevo',
 
     sectionBenefits: 'Beneficios',
-    sectionCosts: 'Costos',
+    sectionCosts: 'Costos y Riesgos',
     sectionLevers: 'Palancas',
     leversSubtitle: '· ordenadas por impacto',
-    addBenefit: 'Añadir otro beneficio',
-    addCost: 'Añadir otro costo',
-    labelProbability: 'PROBABILIDAD DE ÉXITO',
-    labelProbabilityCost: 'PROBABILIDAD DE FALLA',
-    labelValue: 'VALOR ESTIMADO',
-    labelCost: 'COSTO ESTIMADO',
+    addBenefit: 'agregar beneficio',
+    addCost: 'agregar costo / riesgo',
+    labelProbability: 'probabilidad',
+    labelValue: 'valor',
+    labelCost: 'costo',
     newBenefitLabel: 'Nuevo beneficio',
     newCostLabel: 'Nuevo costo',
     projectPlaceholder: 'Nombre del proyecto',
     defaultProjectName: 'Proyecto Ejemplo',
     tooltipEditHint: 'Agregá una nota o contexto para este ítem...',
 
-    eVeryGood: 'Proyecto Muy Viable',
-    eGood: 'Proyecto Viable',
-    eFragile: 'Proyecto en Riesgo',
-    eBad: 'Proyecto Inviable',
+    eVeryGood: 'Vale mucho la pena jugar este juego.',
+    eGood: 'Vale la pena intentarlo.',
+    eFragile: 'Esperanza frágil. Revisá las palancas.',
+    eBad: 'Esperanza negativa. ¿Qué podés cambiar?',
 
     rankingTitle: 'Ranking',
     bestBadge: 'mejor',
-    compareTitle: 'Comparar Proyectos',
-    compareSubtitle: 'Evalúa tus ideas y decide qué construir a continuación.',
-
-    resultsLabel: 'EXPECTATIVA MATEMÁTICA',
-    weightedBenefit: 'Beneficio Ponderado',
-    weightedCost: 'Costo Ponderado',
-    saveResults: 'Guardar Resultados',
-    positiveImpact: 'Impacto Positivo',
-    riskInvestment: 'Riesgo / Inversión',
-    basedOn: 'Basado en las probabilidades, en promedio esperarías obtener',
-    fromThis: 'de este proyecto.',
 
     standardBenefits: {
       economic_income: {
@@ -237,21 +212,21 @@ const translations = {
       },
     } as Record<string, ItemDef>,
 
-    whyTitle1: 'La ciencia de decidir',
-    whyHope: '',
-    whyTitle2: '',
+    whyTitle1: '¿Por qué calcular la',
+    whyHope: 'esperanza',
+    whyTitle2: '?',
     whyStory: [
       'Pasé días perdido. Desganado, sin ver el futuro con claridad. Pero noté algo: cada vez que aparecía una idea prometedora, volvía la energía. De repente tenía ganas de levantarme, de hablar, de crear.',
       'Me pregunté qué era eso. Y me di cuenta: era la esperanza. No el optimismo ingenuo ni la fe ciega, sino algo más preciso: la percepción de que el futuro podía ser mejor si actuaba bien.',
       'Justo estaba leyendo a Laplace. Me pareció hermoso que algo tan humano, tan íntimo, tuviera una fórmula. Decidí matematizar mi propia esperanza. No para predecir el futuro, sino para entender qué me mueve y para diseñarla.',
     ],
-    whyLaplaceTitle: 'Fórmula de Laplace',
+    whyLaplaceTitle: '¿Qué es la esperanza según Laplace?',
     whyLaplaceBody:
       '"La ventaja del que espera un bien cualquiera dentro de suposiciones que son solo probables." No es optimismo. No es fe. Es una medida racional de cuánto vale la pena embarcarse en algo, dadas las probabilidades y los valores en juego.',
     whyEquationTitle: 'La ecuación',
     whyEquationNote:
       'Los valores son subjetivos. Y eso no los invalida, los hace propios. Nadie más que vos sabe cuánto vale para vos algo o cuánto te cuesta un fracaso.',
-    whyLeversTitle: 'Las 4 Palancas',
+    whyLeversTitle: 'Las 4 palancas para subir E',
     whyLevers: [
       {
         sym: '↑ P(i)',

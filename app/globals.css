@@ -3,20 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --bg: #F5F4F0;
-  --surface: #FFFFFF;
-  --border: #E2E8F0;
-  --purple: #7B5CE7;
-  --purple-light: #EDE9FF;
-  --green: #4EBF8A;
-  --green-light: #E6F8F2;
-  --coral: #F07878;
-  --coral-light: #FEF0F0;
-  --text: #1E1E2D;
-  --text-mid: #6B7280;
-  --text-light: #9CA3AF;
-  --shadow: 0 2px 12px rgba(0,0,0,0.06);
-  --radius: 16px;
+  --bg: #0e0e0e;
+  --surface: #161616;
+  --surface-2: #1e1e1e;
+  --border: #2a2a2a;
+  --gold: #c9a84c;
+  --text: #e2e2e2;
+  --muted: #666666;
   --font-dm-sans: 'DM Sans', system-ui, sans-serif;
   --font-ibm-mono: 'IBM Plex Mono', 'Menlo', monospace;
   --font-playfair: 'Playfair Display', Georgia, serif;
@@ -50,33 +43,31 @@ body {
 input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
-  height: 6px;
-  border-radius: 3px;
+  height: 4px;
+  border-radius: 2px;
   outline: none;
   cursor: pointer;
-  background: var(--border);
 }
 
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--text);
   cursor: pointer;
-  border: 2px solid var(--border);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--border);
 }
 
 input[type='range']::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--text);
   cursor: pointer;
-  border: 2px solid var(--border);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  border: 2px solid var(--bg);
 }
 
 /* Editable input reset */
