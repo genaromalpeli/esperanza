@@ -1,0 +1,6 @@
+import React from "react";
+import { AbsoluteFill } from "remotion";
+
+export const MyComposition: React.FC = () => {
+  return <AbsoluteFill style={{ backgroundColor: "white" }} />;
+};
